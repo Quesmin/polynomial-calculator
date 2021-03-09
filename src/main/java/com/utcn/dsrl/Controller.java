@@ -101,9 +101,11 @@ public class Controller {
     static Polynomial integrate(Polynomial a){
         Polynomial result = new Polynomial();
 
+        System.out.println(a.toFormatedStrting());
         for(Monomial m : a.getPolynomial()){
             Integer newCoef = m.getCoef() / (m.getExp() + 1);
-            result.addToPolynomial(new Monomial(newCoef < 1 ? 1 : newCoef, m.getExp() + 1));
+
+            result.addToPolynomial(new Monomial(newCoef == 0 ? 1 : newCoef, m.getExp() + 1));
         }
 
         return result;

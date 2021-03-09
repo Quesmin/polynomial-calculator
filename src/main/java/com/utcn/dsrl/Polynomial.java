@@ -18,7 +18,7 @@ public class Polynomial {
 
     public Polynomial(Monomial m) {
         this.polynomial = new ArrayList<Monomial>();
-        this.polynomial.add(m);
+        this.addToPolynomial(m);
     }
 
     public Polynomial(Polynomial that) {
@@ -44,10 +44,10 @@ public class Polynomial {
             }
 
             if(mon.contains("x")){
-                if(mon.substring(0, 2).equals("-x")){
-                    coef = -1;
-                } else if (mon.charAt(0) == 'x'){
+                if(mon.charAt(0) == 'x'){
                     coef = 1;
+                } else if (mon.substring(0, 2).equals("-x")){
+                    coef = -1;
                 }else {
                     coef = Integer.parseInt(mon.substring(0, mon.indexOf("x")));
                 }
@@ -55,7 +55,7 @@ public class Polynomial {
                 coef = Integer.parseInt(mon);
             }
 
-            this.polynomial.add(new Monomial(coef, exp));
+            this.addToPolynomial(new Monomial(coef, exp));
         }
     }
 
@@ -67,18 +67,34 @@ public class Polynomial {
         this.polynomial = polynomial;
     }
 
+    public String toFormatedStrting(){
+
+        String out = "";
+        this.polynomial.sort(Comparator.comparing(Monomial::getExp));
+
+        for(Monomial m : this.polynomial){
+            out+= this.polynomial.indexOf(m) + ". ";
+            out+= "coef: " + m.getCoef() + " exp: " + m.getExp() + "\n";
+        }
+
+        return out;
+    }
+
     public void addToPolynomial(Monomial newMon) {
         boolean found = false;
 
-        for (Monomial m : this.polynomial) {
-            if (m.getExp().equals(newMon.getExp())) {
-                found = true;
-                m.setCoef(m.getCoef() + newMon.getCoef());
-            }
-        }
+        if(newMon.getCoef() != 0){
 
-        if (!found) {
-            this.polynomial.add(newMon);
+            for (Monomial m : this.polynomial) {
+                if (m.getExp().equals(newMon.getExp())) {
+                    found = true;
+                    m.setCoef(m.getCoef() + newMon.getCoef());
+                }
+            }
+
+            if (!found) {
+                this.polynomial.add(newMon);
+            }
         }
     }
 
