@@ -35,7 +35,7 @@ public class Polynomial {
         this.polynomial = new ArrayList<Monomial>();
 
         for (String mon : inputArray) {
-            Integer coef, exp = 0;
+            double coef, exp = 0;
 
             if(mon.contains("^")){
                 exp = Integer.parseInt(mon.substring(mon.lastIndexOf("^") + 1));
@@ -86,7 +86,7 @@ public class Polynomial {
         if(newMon.getCoef() != 0){
 
             for (Monomial m : this.polynomial) {
-                if (m.getExp().equals(newMon.getExp())) {
+                if (m.getExp() == newMon.getExp()) {
                     found = true;
                     m.setCoef(m.getCoef() + newMon.getCoef());
                 }
@@ -124,7 +124,7 @@ public class Polynomial {
             if (mon.getCoef() > 0) {
                 output += "+";
             }
-            output += mon.getCoef();
+            output += formatNumber(mon.getCoef());
 
             if((mon.getCoef() == 1 || mon.getCoef() == -1) && mon.getExp() > 0){
                 output = output.substring(0, output.length() -1);
@@ -133,7 +133,7 @@ public class Polynomial {
             if (mon.getExp() > 0) {
                 output += "x";
                 if (mon.getExp() != 1) {
-                    output += "^" + mon.getExp();
+                    output += "^" + formatNumber(mon.getExp());
                 }
             }
             mon = li.hasPrevious() ? li.previous() : null;
@@ -141,5 +141,13 @@ public class Polynomial {
 
         return output.charAt(0) == '+' ? output.substring(1) : output;
 
+    }
+
+    private static String formatNumber(double n){
+        if(n == (long)n){
+            return String.format("%d", (long) n);
+        } else {
+            return String.format("%.2f", n);
+        }
     }
 }

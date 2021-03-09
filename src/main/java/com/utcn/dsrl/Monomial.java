@@ -2,26 +2,26 @@ package com.utcn.dsrl;
 
 public class Monomial{
 
-    private Integer coef, exp;
+    private double coef, exp;
 
-    public Monomial(Integer coef, Integer exp){
+    public Monomial(double coef, double exp){
         this.coef = coef;
         this.exp = exp;
     }
 
-    public Integer getCoef() {
+    public double getCoef() {
         return coef;
     }
 
-    public void setCoef(Integer coef) {
+    public void setCoef(double coef) {
         this.coef = coef;
     }
 
-    public Integer getExp() {
+    public double getExp() {
         return exp;
     }
 
-    public void setExp(Integer exp) {
+    public void setExp(double exp) {
         this.exp = exp;
     }
 }

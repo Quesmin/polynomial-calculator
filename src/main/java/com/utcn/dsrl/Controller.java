@@ -61,8 +61,8 @@ public class Controller {
 
         while(!r.getPolynomial().isEmpty() && r.getDegree().getExp() >= d.getDegree().getExp()){
 
-            Integer divCoef = r.getDegree().getCoef()/d.getDegree().getCoef();
-            Integer divExp = r.getDegree().getExp()-d.getDegree().getExp();
+            double divCoef = r.getDegree().getCoef()/d.getDegree().getCoef();
+            double divExp = r.getDegree().getExp()-d.getDegree().getExp();
             Monomial qMon = new Monomial(divCoef, divExp);
             q.addToPolynomial(qMon);
             Polynomial sub = new Polynomial(multiply(new Polynomial(qMon), d));
@@ -103,7 +103,7 @@ public class Controller {
 
         System.out.println(a.toFormatedStrting());
         for(Monomial m : a.getPolynomial()){
-            Integer newCoef = m.getCoef() / (m.getExp() + 1);
+            double newCoef = m.getCoef() / (m.getExp() + 1);
 
             result.addToPolynomial(new Monomial(newCoef == 0 ? 1 : newCoef, m.getExp() + 1));
         }
