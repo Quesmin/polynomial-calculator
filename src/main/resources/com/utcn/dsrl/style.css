@@ -1,0 +1,28 @@
+* {
+    -fx-background-color: #111113;
+    -fx-text-fill: #fafafa;
+    -fx-color-label-visible: #fafafa;
+}
+
+.fields * {
+    -fx-background-color: #4d4d4d;
+    /*-fx-background-color: #5d4d4d;*/
+}
+
+.button {
+    -fx-background-color: #3e3e3e;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    /*-fx-border-color: #111113;*/
+}
+
+.button:pressed {
+    -fx-background-color: #515151;
+}
+
+.result-button {
+    -fx-background-color: red;
+}
+.result-button:pressed{
+    -fx-background-color: #ff6a6a;
+}
