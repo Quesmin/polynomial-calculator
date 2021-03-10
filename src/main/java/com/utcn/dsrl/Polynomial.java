@@ -3,6 +3,8 @@ package com.utcn.dsrl;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.ListIterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Polynomial {
 
@@ -30,6 +32,9 @@ public class Polynomial {
     }
 
     public Polynomial(String input) {
+//        Pattern pattern = Pattern.compile("([+-]?(?:(?:\\d+x\\^\\d+)|(?:\\d+x)|(?:\\d+)|(?:x)))");
+//        Matcher matcher = pattern.matcher(exp);
+
         input = input.replace("-", "+-");
         String[] inputArray = input.split("\\+");
         this.polynomial = new ArrayList<Monomial>();
@@ -144,8 +149,8 @@ public class Polynomial {
     }
 
     private static String formatNumber(double n){
-        if(n == (long)n){
-            return String.format("%d", (long) n);
+        if(n == (int)n){
+            return String.format("%d", (int) n);
         } else {
             return String.format("%.2f", n);
         }
