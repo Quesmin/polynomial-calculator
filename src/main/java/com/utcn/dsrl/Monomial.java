@@ -4,6 +4,10 @@ public class Monomial{
 
     private double coef, exp;
 
+    public Monomial(){
+        this(1,0);
+    }
+
     public Monomial(double coef, double exp){
         this.coef = coef;
         this.exp = exp;

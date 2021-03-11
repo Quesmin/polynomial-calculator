@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,9 +19,8 @@ import java.util.ResourceBundle;
 /**
  * JavaFX App
  */
-public class AppController extends Application implements Initializable {
+public class AppController implements Initializable {
 
-    private static Scene scene;
 
     @FXML
     private Button button0;
@@ -76,19 +76,21 @@ public class AppController extends Application implements Initializable {
     private TextField secondPol;
     @FXML
     private TextField resultPol;
+    @FXML
+    private Text invalidInput;
 
     private TextField selectedTextField;
     private Button selectedOperation;
 
-    @Override
-    public void start(Stage stage) throws IOException {
-
-        scene = new Scene(loadFXML("primary"));
-        stage.setScene(scene);
-        stage.setTitle("PolyCalc");
-        stage.show();
-
-    }
+//    @Override
+//    public void start(Stage stage) throws IOException {
+//
+//        scene = new Scene(loadFXML("primary"));
+//        stage.setScene(scene);
+//        stage.setTitle("PolyCalc");
+//        stage.show();
+//
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -97,16 +99,15 @@ public class AppController extends Application implements Initializable {
         selectedOperation = buttonAdd;
         selectedOperation.setStyle("-fx-background-color: blue");
 
+        invalidInput.setVisible(false);
+
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
+//    static void setRoot(String fxml) throws IOException {
+//        scene.setRoot(loadFXML(fxml));
+//    }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(AppController.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
+
 
     @FXML
     void selectTextField(MouseEvent event) {
@@ -116,6 +117,7 @@ public class AppController extends Application implements Initializable {
     @FXML
     void getInputButton(MouseEvent event) {
         selectedTextField.setText((selectedTextField.getText() + ((Button)event.getSource()).getText()).toLowerCase());
+        selectedTextField.positionCaret(selectedTextField.getText().length());
 //        selectedTextField.requestFocus();
     }
 
@@ -128,6 +130,7 @@ public class AppController extends Application implements Initializable {
     @FXML
     void selectOperation(MouseEvent event) {
 
+
 //        selectedOperation.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         selectedOperation.setStyle("-fx-background-color: #3e3e3e");
         selectedOperation = (Button) event.getSource();
@@ -139,10 +142,124 @@ public class AppController extends Application implements Initializable {
         } else {
             secondPol.setDisable(false);
         }
+
+        Controller.result = null;
+        resultPol.setText("");
+        invalidInput.setVisible(false);
+
+    }
+
+    private boolean areInputsValid(){
+
+        if(selectedOperation.getText().equals("INTEGRATE") || selectedOperation.getText().equals("DIFF")){
+            if(!firstPol.getText().isEmpty() && Controller.isGoodInput(firstPol.getText())){
+                Controller.pol1 = new Polynomial(firstPol.getText());
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            if(!firstPol.getText().isEmpty() && Controller.isGoodInput(firstPol.getText()) &&
+                    !secondPol.getText().isEmpty() && Controller.isGoodInput(secondPol.getText())){
+                Controller.pol1 = new Polynomial(firstPol.getText());
+                Controller.pol2 = new Polynomial(secondPol.getText());
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+    }
+
+    @FXML
+    void getResult(MouseEvent event) {
+
+//
+//        if( !firstPol.getText().isEmpty() && Controller.isGoodInput(firstPol.getText())){
+//            Controller.pol1 = new Polynomial(firstPol.getText());
+//        }
+//        if( !secondPol.getText().isEmpty() && Controller.isGoodInput(secondPol.getText())) {
+//            Controller.pol2 = new Polynomial(secondPol.getText());
+//        }
+//        if(selectedOperation.getText().equals("INTEGRATE") || selectedOperation.getText().equals("DIFF")){
+//            invalidInput.setDisable(true);
+//            if(!firstPol.getText().isEmpty() && Controller.isGoodInput(firstPol.getText())){
+//                Controller.pol1 = new Polynomial(firstPol.getText());
+//            } else {
+//                Controller.pol1 = null;
+//                invalidInput.setDisable(false);
+//            }
+//
+//        } else {
+//
+//        }
+
+        Controller.result = null;
+        resultPol.setText("");
+        invalidInput.setVisible(false);
+
+        if(areInputsValid()){
+
+            switch(selectedOperation.getText()) {
+                case "ADD":
+                    Controller.result = new Polynomial(Controller.add(Controller.pol1, Controller.pol2));
+                    System.out.println(Controller.pol1.toString() + '\n');
+                    System.out.println(Controller.pol2.toString() + '\n');
+                    break;
+                case "SUBTRACT":
+                    Controller.result = new Polynomial(Controller.subtract(Controller.pol1, Controller.pol2));
+                    System.out.println(Controller.pol1.toString() + '\n');
+                    System.out.println(Controller.pol2.toString() + '\n');
+                    break;
+                case "DIVIDE":
+                    Controller.result = new Polynomial(Controller.divide(Controller.pol1, Controller.pol2));
+                    System.out.println(Controller.pol1.toString() + '\n');
+                    System.out.println(Controller.pol2.toString() + '\n');
+                    break;
+                case "MODULO":
+                    Controller.result = new Polynomial(Controller.modulo(Controller.pol1, Controller.pol2));
+                    System.out.println(Controller.pol1.toString() + '\n');
+                    System.out.println(Controller.pol2.toString() + '\n');
+                    break;
+                case "MULTIPLY":
+                    Controller.result = new Polynomial(Controller.multiply(Controller.pol1, Controller.pol2));
+                    System.out.println(Controller.pol1.toString() + '\n');
+                    System.out.println(Controller.pol2.toString() + '\n');
+                    break;
+                case "INTEGRATE":
+                    Controller.result = new Polynomial(Controller.integrate(Controller.pol1));
+                    System.out.println(Controller.pol1.toString() + '\n');
+                    System.out.println(Controller.pol2.toString() + '\n');
+                    break;
+                case "DIFF":
+                    Controller.result = new Polynomial(Controller.differentiate(Controller.pol1));
+                    System.out.println(Controller.pol1.toString() + '\n');
+                    System.out.println(Controller.pol2.toString() + '\n');
+                    break;
+                default:
+                    System.out.println("no match");
+
+            }
+
+            resultPol.setText(Controller.result.toString());
+        } else {
+            invalidInput.setVisible(true);
+        }
+
+
+//            resultPol.setText(Controller.result.toString());
+//        } else {
+//
+//            invalidInput.setDisable(false);
+//        }
+
+
+
     }
 
 
-    public static void main(String[] args) {
-        launch();
-    }
+//    public static void main(String[] args) {
+//        launch();
+//    }
 }

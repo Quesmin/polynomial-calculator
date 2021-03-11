@@ -29,31 +29,33 @@ public class Polynomial {
         for (Monomial m : that.getPolynomial()) {
             this.polynomial.add(new Monomial(m.getCoef(), m.getExp()));
         }
+
+        cleanPolynomial();
     }
 
     public Polynomial(String input) {
-//        Pattern pattern = Pattern.compile("([+-]?(?:(?:\\d+x\\^\\d+)|(?:\\d+x)|(?:\\d+)|(?:x)))");
-//        Matcher matcher = pattern.matcher(exp);
-
-        input = input.replace("-", "+-");
-        String[] inputArray = input.split("\\+");
+        Pattern pattern = Pattern.compile("([+-]?(?:(?:\\d+x\\^\\d+)|(?:x\\^\\d+)|(?:\\d+x)|(?:x)|(?:\\d+)))");
+        Matcher matcher = pattern.matcher(input);
         this.polynomial = new ArrayList<Monomial>();
 
-        for (String mon : inputArray) {
+        while(matcher.find()) {
             double coef, exp = 0;
+            String mon = matcher.group(1);
+            System.out.println(mon + '\n');
 
             if(mon.contains("^")){
                 exp = Integer.parseInt(mon.substring(mon.lastIndexOf("^") + 1));
             } else if(mon.contains("x")){
                 exp = 1;
             }
-
             if(mon.contains("x")){
                 if(mon.charAt(0) == 'x'){
                     coef = 1;
                 } else if (mon.substring(0, 2).equals("-x")){
                     coef = -1;
-                }else {
+                }else if(mon.substring(0, 2).equals("+x")){
+                    coef = 1;
+                }else{
                     coef = Integer.parseInt(mon.substring(0, mon.indexOf("x")));
                 }
             } else {
@@ -62,6 +64,8 @@ public class Polynomial {
 
             this.addToPolynomial(new Monomial(coef, exp));
         }
+
+        cleanPolynomial();
     }
 
     public ArrayList<Monomial> getPolynomial() {
@@ -101,11 +105,15 @@ public class Polynomial {
                 this.polynomial.add(newMon);
             }
         }
+        cleanPolynomial();
+    }
+
+    private void cleanPolynomial(){
+        this.polynomial.removeIf(currMon -> currMon.getCoef() == 0);
     }
 
     public Monomial getDegree() {
         Monomial maxDegMon = new Monomial(-1, -1);
-
 
         for (Monomial m : this.polynomial) {
             if (m.getExp() > maxDegMon.getExp()) {
@@ -118,6 +126,10 @@ public class Polynomial {
 
     @Override
     public String toString() {
+
+        if(this.polynomial.isEmpty() || this.polynomial == null){
+            return "0";
+        }
 
         String output = "";
         this.polynomial.sort(Comparator.comparing(Monomial::getExp));

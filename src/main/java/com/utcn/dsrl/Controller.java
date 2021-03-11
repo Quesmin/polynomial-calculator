@@ -1,23 +1,64 @@
 package com.utcn.dsrl;
 
-import java.util.Scanner;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Controller {
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Controller extends Application {
+    private static Scene scene;
+    public static Polynomial pol1;
+    public static Polynomial pol2;
+    public static Polynomial result;
+
+
+    @Override
+    public void start(Stage stage) throws IOException {
+
+        scene = new Scene(loadFXML("primary"));
+        stage.setScene(scene);
+        stage.setTitle("PolyCalc");
+        stage.show();
+
+    }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(AppController.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
+    }
 
     public static void main(String[] args){
 
-        Scanner sc = new Scanner(System.in);
-        Polynomial a, b;
-        String in = sc.nextLine();
-        a = new Polynomial(in);
+        launch();
+//        Scanner sc = new Scanner(System.in);
+//        Polynomial a, b;
+//        String in = sc.nextLine();
+//        a = new Polynomial(in);
 //        in = sc.nextLine();
 //        b = new Polynomial(in);
 
-        System.out.println(a.toString());
+//        while(true){
+//            String in = sc.nextLine();
+//            if(isGoodInput(in)){
+//                a = new Polynomial(in);
+//                System.out.println(a.toString());
+//            } else {
+//                System.out.println("nu i bun teso");
+//            }
+//
+//        }
 //        System.out.println(b.toString());
 
-        Polynomial res = integrate(a);
-        System.out.println(res.toString());
+//        Polynomial res = divide(a,b);
+//        System.out.println(res.toString());
+//        res = modulo(a,b);
+//        System.out.println(res.toString());
 
 
     }
@@ -53,9 +94,9 @@ public class Controller {
 
     }
 
-    static Polynomial divide(Polynomial a, Polynomial b){
+    static Polynomial divideOperation(Polynomial a, Polynomial b, int mode){
 
-        Polynomial q = new Polynomial();
+        Polynomial q = new Polynomial(new Monomial(0,0));
         Polynomial r = new Polynomial(a);
         Polynomial d = new Polynomial(b);
 
@@ -69,7 +110,22 @@ public class Controller {
             r.setPolynomial(subtract(r, sub).getPolynomial());
         }
 
-        return q;
+        System.out.println(q.toString() + " " + r.toString());
+
+        if(mode == 0){
+            return q;
+        }else {
+            return r;
+        }
+
+    }
+
+    public static Polynomial modulo(Polynomial a, Polynomial b) {
+        return divideOperation(a,b,1);
+    }
+
+    public static Polynomial divide(Polynomial a, Polynomial b) {
+        return divideOperation(a,b,0);
     }
 
     static Polynomial multiply(Polynomial a, Polynomial b) {
@@ -109,5 +165,9 @@ public class Controller {
         }
 
         return result;
+    }
+
+    static boolean isGoodInput(String in) {
+        return in.matches("([+-]?(?:(?:\\d+x)|(?:\\d+)|(?:x)|(?:\\d+x\\^\\d+)|(?:x\\^\\d+)))+");
     }
 }
