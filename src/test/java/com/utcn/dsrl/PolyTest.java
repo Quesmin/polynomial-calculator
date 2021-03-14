@@ -35,6 +35,15 @@ class PolyTest {
     }
 
     @Test
+    void divide() {
+        Polynomial a = new Polynomial("2x^3+3x^2-x+5");
+        Polynomial b = new Polynomial("x^2-x+1");
+        String result = "2x+5";
+
+        assertEquals(result, Controller.divide(a, b).toString());
+    }
+
+    @Test
     void modulo_divisionByZero() {
         Polynomial a = new Polynomial("2x^3+3x^2-x+5");
         Polynomial b = new Polynomial("0");
