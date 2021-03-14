@@ -98,6 +98,8 @@ public class Controller extends Application {
 
         Polynomial q = new Polynomial(new Monomial(0,0));
         Polynomial r = new Polynomial(a);
+        if(b == null || b.getPolynomial().isEmpty())
+            return null;
         Polynomial d = new Polynomial(b);
 
         while(!r.getPolynomial().isEmpty() && r.getDegree().getExp() >= d.getDegree().getExp()){
