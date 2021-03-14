@@ -213,12 +213,22 @@ public class AppController implements Initializable {
                     System.out.println(Controller.pol2.toString() + '\n');
                     break;
                 case "DIVIDE":
-                    Controller.result = new Polynomial(Controller.divide(Controller.pol1, Controller.pol2));
+                    if(!secondPol.getText().equals("0") && !firstPol.getText().equals("0")){
+                        Controller.result = new Polynomial(Controller.divide(Controller.pol1, Controller.pol2));
+                    } else {
+                        resultPol.setText("");
+                        invalidInput.setVisible(true);
+                    }
                     System.out.println(Controller.pol1.toString() + '\n');
                     System.out.println(Controller.pol2.toString() + '\n');
                     break;
                 case "MODULO":
-                    Controller.result = new Polynomial(Controller.modulo(Controller.pol1, Controller.pol2));
+                    if(!secondPol.getText().equals("0") && !firstPol.getText().equals("0")){
+                        Controller.result = new Polynomial(Controller.modulo(Controller.pol1, Controller.pol2));
+                    } else {
+                        resultPol.setText("");
+                        invalidInput.setVisible(true);
+                    }
                     System.out.println(Controller.pol1.toString() + '\n');
                     System.out.println(Controller.pol2.toString() + '\n');
                     break;
@@ -242,7 +252,11 @@ public class AppController implements Initializable {
 
             }
 
-            resultPol.setText(Controller.result.toString());
+            try{
+                resultPol.setText(Controller.result.toString());
+            }catch (Exception NullPointerException){
+                System.out.println("null result");
+            }
         } else {
             invalidInput.setVisible(true);
         }
