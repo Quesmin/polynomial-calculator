@@ -34,33 +34,7 @@ public class Controller extends Application {
     }
 
     public static void main(String[] args){
-
         launch();
-//        Scanner sc = new Scanner(System.in);
-//        Polynomial a, b;
-//        String in = sc.nextLine();
-//        a = new Polynomial(in);
-//        in = sc.nextLine();
-//        b = new Polynomial(in);
-
-//        while(true){
-//            String in = sc.nextLine();
-//            if(isGoodInput(in)){
-//                a = new Polynomial(in);
-//                System.out.println(a.toString());
-//            } else {
-//                System.out.println("nu i bun teso");
-//            }
-//
-//        }
-//        System.out.println(b.toString());
-
-//        Polynomial res = divide(a,b);
-//        System.out.println(res.toString());
-//        res = modulo(a,b);
-//        System.out.println(res.toString());
-
-
     }
 
     static Polynomial add(Polynomial a, Polynomial b){
