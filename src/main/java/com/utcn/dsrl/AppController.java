@@ -82,15 +82,6 @@ public class AppController implements Initializable {
     private TextField selectedTextField;
     private Button selectedOperation;
 
-//    @Override
-//    public void start(Stage stage) throws IOException {
-//
-//        scene = new Scene(loadFXML("primary"));
-//        stage.setScene(scene);
-//        stage.setTitle("PolyCalc");
-//        stage.show();
-//
-//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -103,10 +94,6 @@ public class AppController implements Initializable {
 
     }
 
-//    static void setRoot(String fxml) throws IOException {
-//        scene.setRoot(loadFXML(fxml));
-//    }
-
 
 
     @FXML
@@ -118,23 +105,18 @@ public class AppController implements Initializable {
     void getInputButton(MouseEvent event) {
         selectedTextField.setText((selectedTextField.getText() + ((Button)event.getSource()).getText()).toLowerCase());
         selectedTextField.positionCaret(selectedTextField.getText().length());
-//        selectedTextField.requestFocus();
     }
 
     @FXML
     void clearTextField(MouseEvent event) {
         selectedTextField.setText("");
-//        selectedTextField.requestFocus();
     }
 
     @FXML
     void selectOperation(MouseEvent event) {
 
-
-//        selectedOperation.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         selectedOperation.setStyle("-fx-background-color: #3e3e3e");
         selectedOperation = (Button) event.getSource();
-//        selectedOperation.getStyleClass().add("button-pressed");
         selectedOperation.setStyle("-fx-background-color: blue");
 
         if(selectedOperation.getText().equals("INTEGRATE") || selectedOperation.getText().equals("DIFF")){
@@ -174,27 +156,6 @@ public class AppController implements Initializable {
 
     @FXML
     void getResult(MouseEvent event) {
-
-//
-//        if( !firstPol.getText().isEmpty() && Controller.isGoodInput(firstPol.getText())){
-//            Controller.pol1 = new Polynomial(firstPol.getText());
-//        }
-//        if( !secondPol.getText().isEmpty() && Controller.isGoodInput(secondPol.getText())) {
-//            Controller.pol2 = new Polynomial(secondPol.getText());
-//        }
-//        if(selectedOperation.getText().equals("INTEGRATE") || selectedOperation.getText().equals("DIFF")){
-//            invalidInput.setDisable(true);
-//            if(!firstPol.getText().isEmpty() && Controller.isGoodInput(firstPol.getText())){
-//                Controller.pol1 = new Polynomial(firstPol.getText());
-//            } else {
-//                Controller.pol1 = null;
-//                invalidInput.setDisable(false);
-//            }
-//
-//        } else {
-//
-//        }
-
         Controller.result = null;
         resultPol.setText("");
         invalidInput.setVisible(false);
@@ -261,19 +222,5 @@ public class AppController implements Initializable {
             invalidInput.setVisible(true);
         }
 
-
-//            resultPol.setText(Controller.result.toString());
-//        } else {
-//
-//            invalidInput.setDisable(false);
-//        }
-
-
-
     }
-
-
-//    public static void main(String[] args) {
-//        launch();
-//    }
 }
